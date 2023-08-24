@@ -1,6 +1,16 @@
 sequenceDiagram
+    participant user
     participant browser
     participant server
+
+    The user opens the browser
+    
+    user->>browser: OPEN example app
+    activate browser
+    browser-->>user: the application
+    deactivate browser
+
+    The browser opens the application from server
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
@@ -17,25 +27,25 @@ sequenceDiagram
     server-->>browser: the JavaScript file
     deactivate server
     
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    The browser starts executing the JavaScript code that fetches the JSON from the database
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
     server-->>browser: [{ "content": "HTML is easy", "date": "2023-8-24" }, ... ]
     deactivate server
     
-    Note right of browser: The browser executes the callback function that renders the notes
+    The browser executes the callback function that renders the notes
     
-    browser->>save: click save to add a comment
+    user->>browser: click save to add a comment
     activate server
-    save-->>browser: comment added
+    browser-->>server: comment saved
     deactivate server
     
-    Note right of browser: The browser executes the save function
+    The browser executes the save function
     
-    server->>save: click save to add a comment
+    server->>browser: comment added
     activate server
-    save-->>server: comment added
+    browser-->>user: comment added
     deactivate server
     
-    Note right of browser: The server executes the save function
+    The server executes the save function
