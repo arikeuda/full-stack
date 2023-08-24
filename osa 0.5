@@ -1,6 +1,7 @@
 sequenceDiagram
     participant browser
     participant server
+    participant database
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
@@ -17,13 +18,25 @@ sequenceDiagram
     server-->>browser: the JavaScript file
     deactivate server
     
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the database
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-8-24" }, ... ]
-    deactivate server    
+    browser->>database: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate database
+    database-->>browser: [{ "content": "HTML is easy", "date": "2023-8-24" }, ... ]
+    deactivate database
     
     Note right of browser: The browser executes the callback function that renders the notes
     
+    browser->>database: click save to add a comment
+    activate database
+    database-->>browser: comment added
+    deactivate database
     
+    Note right of browser: The browser executes the save function
+    
+    database->>browser: click save to add a comment
+    activate database
+    browser-->>database: comment added
+    deactivate database
+    
+    Note right of browser: The database executes the save function
