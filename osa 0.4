@@ -1,24 +1,48 @@
 actor Käyttäjä
-note right of Käyttäjä: Käyttäjä kirjoittaa osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
 Käyttäjä->Selain: Käyttäjä avaa selaimen
+note right of Käyttäjä: Käyttäjä kirjoittaa osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
 
 actor Selain
-Selain->Palvelin: Selain pyytää sivun palvelimelta
-
-actor Selain
-Palvelin->Selain: Palvelin antaa sivun selaimelle
-
-actor Palvelin
-Selain->Käyttäjä: Selain tuo sivun käyttäjälle
+Selain->Käyttäjä: Selain näyttää käyttäjälle muistiinpanosivun
 
 actor Käyttäjä
-Käyttäjä->Selain: Käyttäjä kirjoittaa sivulle tekstin ja painaa "Save"
+Käyttäjä->Selain: Käyttäjä kirjoittaa tekstin "Hello World!" ja painaa "Save"-painiketta
 
 actor Selain
-Selain->Palvelin: Selain vie tekstin palvelimelle
-
-actor Selain
-Palvelin->Selain: Palvelin kuittaa tekstin vastaanotetuksi
+Selain->Palvelin: Selain vie palvelimelle viestin: "Hello World!" osoitteeseen https://studies.cs.helsinki.fi/exampleapp/new_note
 
 actor Palvelin
-Selain->Käyttäjä: Selain tuo sivun käyttäjälle uudella tekstillä
+Palvelin->Selain: Palvelin antaa selaimelle HTML-statuskoodin 302 ja päivittää osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
+
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/notes
+
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle HTML-koodin index.html
+
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.css
+
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle CSS-koodin main.css
+
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.js
+
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle JavaScript-koodin spa.js
+
+actor Palvelin
+note right of Selain: Selain alkaa suorittaa JavaScript-koodia, joka pyytää palvelimelta JSON-datan
+
+actor Palvelin
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/data.json
+
+actor Käyttäjä
+Palvelin->Selain: "[{ "content": "Hello World!", "date": "2023-9-4" }, ... ]"
+
+actor Selain
+Selain->Käyttäjä: Selain suorittaa tapahtumakäsittelijän, joka muuntaa muistiinpanot näytölle
+
+actor Käyttäjä
+note right of Käyttäjä: Käyttäjä näkee tekstinsä alimpana osoitteessa https://studies.cs.helsinki.fi/exampleapp/notes
