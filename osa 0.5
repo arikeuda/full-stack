@@ -1,1 +1,35 @@
+actor Käyttäjä
+Käyttäjä->Selain: Käyttäjä avaa selaimen
+note right of Käyttäjä: Käyttäjä kirjoittaa osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
 
+Selain->Käyttäjä: Selain näyttää käyttäjälle muistiinpanosivun
+
+Käyttäjä->Selain: Käyttäjä kirjoittaa tekstin "Hello World!" ja painaa "Save"-painiketta
+
+Selain->Palvelin: Selain vie tietokannalle viestin: "Hello World!" osoitteeseen https://studies.cs.helsinki.fi/exampleapp/new_note
+
+Selain->Tietokanta: Selain vie tietokannalle viestin: "Hello World!" osoitteeseen https://studies.cs.helsinki.fi/exampleapp/new_note
+
+Tietokanta->Selain: Palvelin antaa selaimelle HTML-statuskoodin 302 ja päivittää osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
+
+Selain->Tietokanta: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/notes
+
+Tietokanta->Selain: Palvelin antaa selaimelle HTML-koodin index.html
+
+Selain->Tietokanta: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.css
+
+Tietokanta->Selain: Palvelin antaa selaimelle CSS-koodin main.css
+
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.js
+
+Tietokanta->Selain: Palvelin antaa selaimelle JavaScript-koodin spa.js
+
+note right of Selain: Selain alkaa suorittaa JavaScript-koodia, joka pyytää palvelimelta JSON-datan
+
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/data.json
+
+Tietokanta->Selain: "[{ "content": "Hello World", "date": "2023-9-4" }, ... ]"
+
+Selain->Käyttäjä: Selain suorittaa tapahtumakäsittelijän, joka muuntaa muistiinpanot näytölle
+
+note right of Käyttäjä: Käyttäjä näkee tekstinsä alimpana osoitteessa https://studies.cs.helsinki.fi/exampleapp/notes
