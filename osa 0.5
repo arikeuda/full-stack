@@ -20,13 +20,13 @@ Selain->Tietokanta: Selain pyytää palvelimelta sivun https://studies.cs.helsin
 
 Tietokanta->Selain: Palvelin antaa selaimelle CSS-koodin main.css
 
-Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.js
+Selain->Tietokanta: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.js
 
 Tietokanta->Selain: Palvelin antaa selaimelle JavaScript-koodin spa.js
 
 note right of Selain: Selain alkaa suorittaa JavaScript-koodia, joka pyytää palvelimelta JSON-datan
 
-Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/data.json
+Selain->Tietokanta: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/data.json
 
 Tietokanta->Selain: "[{ "content": "Hello World", "date": "2023-9-4" }, ... ]"
 
