@@ -1,51 +1,24 @@
-sequenceDiagram
-    participant user
-    participant browser
-    participant server
+actor Käyttäjä
+note right of Käyttäjä: Käyttäjä avaa selaimen osoitteessa https://studies.cs.helsinki.fi/exampleapp/notes
+Käyttäjä->Selain: Selain menee palvelimelle
 
-    The user opens the browser
-    
-    user->>browser: OPEN example app
-    activate browser
-    browser-->>user: the application
-    deactivate browser
+actor Selain
+Selain->Palvelin: Selain pyytää sivun palvelimelta
 
-    The browser opens the application from server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
-    
-    The browser starts executing the JavaScript code that fetches the JSON from the database
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-8-24" }, ... ]
-    deactivate server
-    
-    The browser executes the callback function that renders the notes
-    
-    user->>browser: click save to add a comment
-    activate server
-    browser-->>server: comment saved
-    deactivate server
-    
-    The browser executes the save function
-    
-    server->>browser: comment added
-    activate server
-    browser-->>user: comment added
-    deactivate server
-    
-    The server executes the save function
+actor Selain
+Palvelin->Selain: Palvelin antaa sivun selaimelle
+
+actor Palvelin
+Selain->Käyttäjä: Selain tuo sivun käyttäjälle
+
+actor Käyttäjä
+Käyttäjä->Selain: Käyttäjä kirjoittaa sivulle tekstin ja painaa "Save"
+
+actor Selain
+Selain->Palvelin: Selain vie tekstin palvelimelle
+
+actor Selain
+Palvelin->Selain: Palvelin kuittaa tekstin vastaanotetuksi
+
+actor Palvelin
+Selain->Käyttäjä: Selain tuo sivun käyttäjälle uudella tekstillä
