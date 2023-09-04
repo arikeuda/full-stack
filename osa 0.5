@@ -1,50 +1,36 @@
-sequenceDiagram
-    participant user
-    participant browser
-    participant server
-    participant database
+actor Käyttäjä
+note right of Käyttäjä: Käyttäjä kirjoittaa selaimeen osoitteen https://studies.cs.helsinki.fi/exampleapp/notes
+Käyttäjä->Selain: Käyttäjä avaa selaimen
 
-    The user opens the browser
-    
-    user->>browser: OPEN example app
-    activate browser
-    browser-->>user: the application
-    deactivate browser
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/notes
 
-    The browser opens the application from server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
-    
-    The browser starts executing the JavaScript code that fetches the JSON from the server
-    
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-8-24" }, ... ]
-    deactivate server
-    
-    The browser executes the callback function that renders the notes
-    
-    user->>browser: click save to add a comment
-    activate database
-    browser-->>database: comment saved
-    deactivate database
-    
-    The browser executes the save function
-    
-    database->>browser: comment added
-    activate database
-    browser-->>user: comment added
-    deactivate database
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle HTML-koodin index.html
+
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.css
+
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle CSS-koodin main.css
+
+actor Selain
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/main.js
+
+actor Palvelin
+Palvelin->Selain: Palvelin antaa selaimelle JavaScript-koodin spa.js
+
+actor Palvelin
+note right of Selain: Selain alkaa suorittaa JavaScript-koodia, joka pyytää JSON-datan palvelimelta
+
+actor Palvelin
+Selain->Palvelin: Selain pyytää palvelimelta sivun https://studies.cs.helsinki.fi/exampleapp/data.json
+
+actor Käyttäjä
+Palvelin->Selain: "[{ "content": "Hello World", "date": "2023-9-4" }, ... ]"
+
+actor Selain
+Selain->Käyttäjä: Selain suorittaa tapahtumakäsittelijän, joka muuntaa muistiinpanot näytölle
+
+actor Käyttäjä
+note right of Käyttäjä: Käyttäjä näkee tekstin https://studies.cs.helsinki.fi/exampleapp/
